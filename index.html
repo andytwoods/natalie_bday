@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/gsap.min.js"></script>
+
+<body>
+
+<img id='bg' src="background.jpg" style="width:100%; height:100%;">
+
+<img src="clickme.png" id='clickme' style="position: absolute; left:30%; top:15%; width:35%">
+<img src="left.png" class='el' id='left' style="position: absolute; left:13%; top:21%; width:35%">
+<img src="right.png" class='el' id='right' style="position: absolute; left:53%; top:21%; width:35%">
+
+<audio id="song" autoplay>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+    // create a new timeline in a paused state
+    var tl = new TimelineMax({ paused:true, yoyo:true, repeat:-1 });
+
+
+
+    // set the initial scale and rotation to 0
+    // and the transform-origin 50% 50%
+    TweenMax.set(".el", {
+        scale:0.1,
+        rotation: 0,
+        transformOrigin:"50% 50%"         // make transform origin be center for x and y axis
+    });
+
+
+    document.getElementById('clickme').addEventListener('click', function(){
+
+        gsap.to("#clickme", {scale: 0, duration: 1});
+
+
+        const song = document.getElementById('song');
+        song.play();
+
+
+        let direction_1 = "+180";
+        let direction_2 = '-360';
+
+        if (Math.random() > .5) {
+            direction_1 = "-180";
+            direction_2 = '+360';
+        }
+
+
+
+        tl
+        .to(".el", 2, {scale:1})
+        .to(".el", 2, {rotation:direction_1})
+        .to(".el", 2, {rotation:direction_1})
+        .to(".el", 2, {rotation:direction_2})
+
+            .play();
+
+    });
+</script>
+</body>
+
+</html>
